@@ -18,7 +18,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
-            min-height: 500vh; /* スクロール用の高さ */
+            /* min-height: 500vh; /* スクロール用の高さ */
             transition: background 0.5s ease;
             opacity: 0;
         }
@@ -180,8 +180,10 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
+            text-align: center;
             transform: translateY(50px);
             transition: all 1s ease;
+            z-index: 10;
         }
 
         .content-section.visible {
@@ -189,10 +191,16 @@
             transform: translateY(0);
         }
 
+        .content-section h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
         /* TK District Section */
         .tk-district {
-            text-align: center;
-            z-index: 10;
             display: flex;
         }
 
@@ -218,35 +226,7 @@
             }
         }
 
-        /* Under Construction Section */
-        .under-construction {
-            text-align: center;
-            z-index: 10;
-        }
-
-        .under-construction h2 {
-            font-size: 4rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
         /* Contact Section */
-        .contact-section {
-            text-align: center;
-            z-index: 10;
-        }
-
-        .contact-section h3 {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 30px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        }
-
         .contact-email {
             font-size: 2rem;
             color: #cccccc;
@@ -273,17 +253,8 @@
 
         /* Play Ground Section */
         .playground-section {
-            text-align: center;
-            z-index: 10;
             padding: 50px 20px;
-        }
-
-        .playground-section h2 {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 30px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            min-height: 200vh;
         }
 
         .playground-grid {
@@ -405,17 +376,23 @@
             opacity: 0.7;
         }
 
+        /* Copyright Section */
+        .copyright-section{
+            min-height: 50vh;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
+
             .tk-district h1 {
                 font-size: 3rem;
             }
             
-            .under-construction h2 {
-                font-size: 2.5rem;
+            .playground-section {
+                min-height: 300vh;
             }
-            
-            .contact-section h3 {
+
+            .contact-section h2 {
                 font-size: 2rem;
             }
             
@@ -424,11 +401,7 @@
                 padding: 15px 30px;
             }
             
-            .contact-section h3 {
-                font-size: 2rem;
-            }
-            
-            .playground-section h3 {
+            .playground-section h2 {
                 font-size: 2rem;
             }
 
@@ -453,6 +426,10 @@
 
             .card-thumbnail {
                 height: 100px;
+            }
+            
+            .copyright-section h2 {
+                font-size: 1.5rem;
             }
         }
 
@@ -488,11 +465,6 @@
     <section class="content-section tk-district" id="tk-district">
         <h1>TK District</h1>
     </section>
-
-    <!-- Under Construction Section
-    <section class="content-section under-construction" id="under-construction">
-        <h2>Under Construction</h2>
-    </section> -->
     
     <!-- Play Ground Section -->
     <section class="content-section playground-section" id="playground">
@@ -503,47 +475,39 @@
                 <div class="card-thumbnail"></div>
                 <div class="card-title">Cyberpunk & Neon</div>
                 <div class="card-description">A futuristic, neon-lit cityscape with a cyberpunk twist.</div>
-                <span class="card-icon">→</span>
             </a>
             <a href="sample2.html" class="playground-card card-cosmic">
                 <div class="card-thumbnail"></div>
                 <div class="card-title">Cosmic Space</div>
                 <div class="card-description">Explore the vastness of space and distant galaxies.</div>
-                <span class="card-icon">→</span>
             </a>
             <a href="sample3.html" class="playground-card card-minimal">
                 <div class="card-thumbnail"></div>
                 <div class="card-title">Minimal Design</div>
                 <div class="card-description">A clean, minimalist design with a modern feel.</div>
-                <span class="card-icon">→</span>
             </a>
             <a href="sample4.html" class="playground-card card-glass">
                 <div class="card-thumbnail"></div>
                 <div class="card-title">Glass Morphism</div>
                 <div class="card-description">A stunning glass-like effect with a dynamic twist.</div>
-                <span class="card-icon">→</span>
             </a>
             <a href="sample5.html" class="playground-card card-interactive">
                 <div class="card-thumbnail"></div>
                 <div class="card-title">Interactive Design</div>
                 <div class="card-description">An interactive experience with user-driven elements.</div>
-                <span class="card-icon">→</span>
             </a>
         </div>
     </section>
     
     <!-- Contact Section -->
     <section class="content-section contact-section" id="contact">
-    </section>
-    <section class="content-section contact-section" id="contact">
-        <h3>Contact Us</h3>
+        <h2>Contact Us</h2>
         <div><a href="mailto:info@tkdistrict.com" class="contact-email">info@tkdistrict.com</a></div>
     </section>
-    <section class="content-section contact-section" id="contact">
-    </section>
 
-    <section class="content-section contact-section" id="contact">
-        <h3>&copy; 2025 TK District</h3>
+    <!-- Copyright Section -->
+    <section class="content-section copyright-section">
+        <h2>&copy; 2025 TK District</h2>
     </section>
 
     <script>
