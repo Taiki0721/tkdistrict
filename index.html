@@ -3,152 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK District - サンプルページ</title>
+    <title>TK District</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: #ffffff;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 500vh; /* スクロール用の高さ */
+            transition: background 0.5s ease;
+            opacity: 0;
+        }
+
+        body.loaded {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        /* Dark overlay for first view */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+            transition: opacity 1s ease;
+        }
+
+        /* Fire-like background animation */
+        @keyframes fireBackground {
+            0%, 100% {
+                background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            }
+            25% {
+                background: linear-gradient(135deg, #1a0f23 0%, #2a1a2e 25%, #26213e 50%, #1f3460 75%, #633483 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, #2a0f23 0%, #3a1a2e 25%, #36213e 50%, #2f3460 75%, #733483 100%);
+            }
+            75% {
+                background: linear-gradient(135deg, #1a0f23 0%, #2a1a2e 25%, #26213e 50%, #1f3460 75%, #633483 100%);
+            }
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(1.1) rotate(1deg);
+            }
+            50% {
+                transform: scale(1.05) rotate(-1deg);
+            }
+            75% {
+                transform: scale(1.15) rotate(0.5deg);
+            }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Glowing orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: glowPulse 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .glow-orb:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(120, 119, 198, 0.4) 0%, transparent 70%);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .glow-orb:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 119, 198, 0.4) 0%, transparent 70%);
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .glow-orb:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(120, 219, 255, 0.4) 0%, transparent 70%);
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: relative;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        
-        header {
+
+        /* TK District Section */
+        .tk-district {
             text-align: center;
-            padding: 60px 0;
-            color: white;
+            z-index: 10;
         }
-        
-        h1 {
-            font-size: 3rem;
+
+        .tk-district h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffffff, #cccccc, #ffffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            letter-spacing: 4px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Under Construction Section */
+        .under-construction {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .under-construction h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-        
-        .main-content {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .feature-card {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: transform 0.3s ease;
-        }
-        
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-        
-        footer {
+
+        /* Contact Section */
+        .contact-section {
             text-align: center;
-            padding: 40px 0;
-            color: white;
-            opacity: 0.8;
+            z-index: 10;
         }
-        
+
+        .contact-section h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-email {
+            font-size: 2rem;
+            color: #cccccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 20px 40px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .contact-email:hover {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
+            .tk-district h1 {
+                font-size: 3rem;
+            }
+            
+            .under-construction h2 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-section h3 {
                 font-size: 2rem;
             }
             
-            .main-content {
-                padding: 20px;
+            .contact-email {
+                font-size: 1.5rem;
+                padding: 15px 30px;
             }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cccccc;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffffff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>TK District</h1>
-            <p class="subtitle">あなたの独自ドメインで公開されるWEBサイト</p>
-        </header>
-        
-        <div class="main-content">
-            <h2>ようこそ！</h2>
-            <p>これはGitHub Pagesで公開されるサンプルページです。このページが正常に表示されていれば、GitHub Pagesの設定が成功しています。</p>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>🚀 GitHub Pages</h3>
-                    <p>GitHub Pagesを使用して静的サイトを無料でホスティングできます。このページは自動的にデプロイされます。</p>
-                </div>
+    <!-- Glowing Orbs -->
+    <div class="glow-orb"></div>
+    <div class="glow-orb"></div>
+    <div class="glow-orb"></div>
+    
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- TK District Section -->
+    <section class="content-section tk-district" id="tk-district">
+        <h1>TK District</h1>
+    </section>
+
+    <!-- Under Construction Section -->
+    <section class="content-section under-construction" id="under-construction">
+        <!-- <h2>Under Construction</h2> -->
+    </section>
+
+    <!-- Contact Section -->
+    <section class="content-section contact-section" id="contact">
+        <h3>Contact Us</h3>
+    </section>
+    <a href="mailto:info@tkdistrict.com" class="contact-email">info@tkdistrict.com</a>
+    
+    <!-- Contact Section -->
+    <section class="content-section contact-section" id="contact">
+    </section>
+    <section class="content-section contact-section" id="contact">
+        <h3>This page was generated by AI</h3>
+    </section>
+    
+
+    <script>
+        // Particle System
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
                 
-                <div class="feature-card">
-                    <h3>🌐 独自ドメイン</h3>
-                    <p>カスタムドメインを設定して、プロフェッショナルなURLでサイトを公開できます。</p>
-                </div>
+                // Random position and delay
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
                 
-                <div class="feature-card">
-                    <h3>📱 レスポンシブデザイン</h3>
-                    <p>モバイルデバイスからデスクトップまで、すべての画面サイズで最適に表示されます。</p>
-                </div>
-            </div>
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Scroll Animation
+        function handleScroll() {
+            const sections = document.querySelectorAll('.content-section');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollProgress = scrollPosition / documentHeight;
+
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const triggerPoint = sectionTop - windowHeight * 0.8;
+
+                if (scrollPosition > triggerPoint) {
+                    section.classList.add('visible');
+                }
+            });
+
+            // Enhanced fire-like background animation based on scroll
+            const intensity = Math.sin(scrollProgress * Math.PI * 6) * 0.5 + 0.8;
+            const hueShift = Math.sin(scrollProgress * Math.PI * 3) * 40;
+            const saturationShift = Math.sin(scrollProgress * Math.PI * 2) * 30;
             
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="#" class="cta-button">詳細を見る</a>
-            </div>
-        </div>
-        
-        <footer>
-            <p>&copy; 2024 TK District. All rights reserved.</p>
-        </footer>
-    </div>
+            const baseColors = [
+                [15, 15, 35],   // #0f0f23
+                [26, 26, 46],   // #1a1a2e
+                [22, 33, 62],   // #16213e
+                [15, 52, 96],   // #0f3460
+                [83, 52, 131]   // #533483
+            ];
+            
+            const adjustedColors = baseColors.map(color => {
+                return color.map((c, i) => {
+                    if (i === 0) { // Red channel - more dramatic change
+                        return Math.max(0, Math.min(255, c + hueShift * intensity * 1.5));
+                    } else if (i === 1) { // Green channel
+                        return Math.max(0, Math.min(255, c + saturationShift * intensity * 0.3));
+                    } else { // Blue channel
+                        return Math.max(0, Math.min(255, c + hueShift * intensity * 0.5));
+                    }
+                });
+            });
+            
+            const gradient = `linear-gradient(135deg, 
+                rgb(${adjustedColors[0].join(',')}) 0%, 
+                rgb(${adjustedColors[1].join(',')}) 25%, 
+                rgb(${adjustedColors[2].join(',')}) 50%, 
+                rgb(${adjustedColors[3].join(',')}) 75%, 
+                rgb(${adjustedColors[4].join(',')}) 100%)`;
+            
+            document.body.style.background = gradient;
+
+            // Dark overlay effect for first view
+            const firstViewHeight = windowHeight;
+            const opacity = Math.max(0, 1 - (scrollPosition / firstViewHeight));
+            document.body.style.setProperty('--overlay-opacity', opacity);
+        }
+
+        // Initialize with delay
+        window.addEventListener('load', () => {
+            createParticles();
+            handleScroll();
+            
+            // Add 0.5 second delay before showing the page
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 800);
+        });
+
+        window.addEventListener('scroll', handleScroll);
+    </script>
 </body>
 </html> 
