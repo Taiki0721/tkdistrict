@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Animation - Sample 5</title>
+    
+    <!-- Common JavaScript (includes GA tags) -->
+    <script src="js/common.js"></script>
     <style>
         * {
             margin: 0;
@@ -294,6 +297,9 @@
     </div>
     
     <div class="container">
+        <!-- Common Header (will be injected by common.js) -->
+        <div id="common-header"></div>
+        
         <header>
             <h1 class="interactive-title">Interactive</h1>
             <p class="subtitle">動きのあるインタラクティブ体験</p>
@@ -323,12 +329,24 @@
             <a href="#" class="interactive-button">Start Interaction</a>
         </div>
         
-        <footer>
-            <p>&copy; 2025 Interactive Design. Where motion meets emotion.</p>
-        </footer>
+        <!-- Common Footer (will be injected by common.js) -->
+        <div id="common-footer"></div>
     </div>
     
     <script>
+        // Page-specific initialization
+        window.initializePageSpecific = function() {
+            console.log('Sample5 page initialized');
+            
+            // Track page view in GA (if available)
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    page_title: 'Interactive Animation - Sample 5',
+                    page_location: window.location.href
+                });
+            }
+        };
+        
         // カスタムカーソル
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');

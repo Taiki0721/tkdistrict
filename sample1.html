@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyberpunk Neon - Sample 1</title>
+    
+    <!-- Common JavaScript (includes GA tags) -->
+    <script src="js/common.js"></script>
     <style>
         * {
             margin: 0;
@@ -199,6 +202,9 @@
     <div class="grid-lines"></div>
     
     <div class="container">
+        <!-- Common Header (will be injected by common.js) -->
+        <div id="common-header"></div>
+        
         <header>
             <h1 class="neon-title">Cyberpunk & Neon</h1>
             <p class="subtitle">Neon Future is Now</p>
@@ -225,9 +231,23 @@
             <a href="#" class="cyber-button">Enter the Future</a>
         </div>
         
-        <footer>
-            <p>&copy; 2025 Cyberpunk District. Welcome to the future.</p>
-        </footer>
+        <!-- Common Footer (will be injected by common.js) -->
+        <div id="common-footer"></div>
     </div>
+
+    <script>
+        // Page-specific initialization
+        window.initializePageSpecific = function() {
+            console.log('Sample1 page initialized');
+            
+            // Track page view in GA (if available)
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    page_title: 'Cyberpunk Neon - Sample 1',
+                    page_location: window.location.href
+                });
+            }
+        };
+    </script>
 </body>
 </html> 

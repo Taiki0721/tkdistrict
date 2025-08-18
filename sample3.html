@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimal Modern - Sample 3</title>
+    
+    <!-- Common JavaScript (includes GA tags) -->
+    <script src="js/common.js"></script>
     <style>
         * {
             margin: 0;
@@ -260,16 +263,8 @@
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-content">
-            <a href="#" class="logo">Minimal</a>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Common Header (will be injected by common.js) -->
+    <div id="common-header"></div>
     
     <main>
         <section id="home" class="hero">
@@ -308,10 +303,23 @@
         </section>
     </main>
     
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Minimal Design. Less is more.</p>
-        </div>
-    </footer>
+        <!-- Common Footer (will be injected by common.js) -->
+        <div id="common-footer"></div>
+    </div>
+
+    <script>
+        // Page-specific initialization
+        window.initializePageSpecific = function() {
+            console.log('Sample3 page initialized');
+            
+            // Track page view in GA (if available)
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    page_title: 'Minimal Modern - Sample 3',
+                    page_location: window.location.href
+                });
+            }
+        };
+    </script>
 </body>
 </html> 

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Space - Sample 2</title>
+    
+    <!-- Common JavaScript (includes GA tags) -->
+    <script src="js/common.js"></script>
     <style>
         * {
             margin: 0;
@@ -260,6 +263,9 @@
     <div class="planet"></div>
     
     <div class="container">
+        <!-- Common Header (will be injected by common.js) -->
+        <div id="common-header"></div>
+        
         <header>
             <h1 class="cosmic-title">Cosmic Space</h1>
             <p class="subtitle">Explore the Universe</p>
@@ -286,9 +292,23 @@
             <a href="#" class="cosmic-button">Launch into Space</a>
         </div>
         
-        <footer>
-            <p>&copy; 2025 Cosmic Space. Infinite possibilities await.</p>
-        </footer>
+        <!-- Common Footer (will be injected by common.js) -->
+        <div id="common-footer"></div>
     </div>
+
+    <script>
+        // Page-specific initialization
+        window.initializePageSpecific = function() {
+            console.log('Sample2 page initialized');
+            
+            // Track page view in GA (if available)
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    page_title: 'Cosmic Space - Sample 2',
+                    page_location: window.location.href
+                });
+            }
+        };
+    </script>
 </body>
 </html> 
